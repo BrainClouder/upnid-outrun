@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": ";;IAEQ,IAAI,EAAE,kBAAkB;IACxB,MAAM,EAAE,GAAG;;IAEX,IAAI,EAAE,iBAAiB;IACvB,MAAM,EAAE,IAAI;;IAEZ,OAAO,EAAE,CAAC;AAElB,eAAe;EACX,SAAS,EAAE,mBAAmB;EAC9B,OAAO,EAAE,CAAC",
+"sources": ["../sass/car.sass"],
+"names": [],
+"file": "car.css"
+}

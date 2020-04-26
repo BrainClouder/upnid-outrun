@@ -1,0 +1,14 @@
+@keyframes left-exit {
+  0% {
+    left: calc(15vw - 150px);
+    bottom: 3px; }
+  99% {
+    left: calc(47vw - 50px);
+    bottom: 40vh; }
+  100% {
+    opacity: 0; } }
+.car-leave-left {
+  animation: left-exit 1s linear;
+  opacity: 0; }
+
+/*# sourceMappingURL=car.css.map */

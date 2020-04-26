@@ -10,23 +10,32 @@
     100%
         transform: perspective(80vh) rotateX(60deg) translateZ(10px) translateY(30px)
 
-.moving-grid
-    background-color: #ffffaa
-    position: absolute
-    left: 300px
-    bottom: 0
-    width: 600px
-    height: 500px
-    overflow: hidden
-    background-position-y: 0px
-    background-image: repeating-linear-gradient(90deg, red 0%, transparent 2px, transparent 30px, red 2px), repeating-linear-gradient(180deg, red 0%, transparent 2px, transparent 30px, red 2px)
-    // background-image: repeating-linear-gradient(90deg, rgba(115,59,139,0.7) 0%, transparent calc(1px + 1px), rgba(115,59,139,0.7) calc(30px + 2px)) repeating-linear-gradient(180deg, rgba(115,59,139,0.7) 0%, transparent calc(1px + 1px), transparent calc(30px), rgba(115,59,139,0.7) calc(31px + 1px))
-    transform: perspective(50vh) rotateX(60deg) translateZ(10px)
-    // animation: animate-grid 0.5s infinite linear
+@keyframes track-paint-anim
+    0%
+        transform: perspective(80vh) rotateX(60deg) translateZ(10px) translateY(-360px)
+    100%
+        transform: perspective(80vh) rotateX(60deg) translateZ(10px) translateY(320px)
+
+// .moving-grid
+//     background-color: #ffffaa
+//     position: absolute
+//     left: 300px
+//     bottom: 0
+//     width: 600px
+//     height: 500px
+//     overflow: hidden
+//     background-position-y: 0px
+//     background-image: repeating-linear-gradient(90deg, red 0%, transparent 2px, transparent 30px, red 2px), repeating-linear-gradient(180deg, red 0%, transparent 2px, transparent 30px, red 2px)
+//     // background-image: repeating-linear-gradient(90deg, rgba(115,59,139,0.7) 0%, transparent calc(1px + 1px), rgba(115,59,139,0.7) calc(30px + 2px)) repeating-linear-gradient(180deg, rgba(115,59,139,0.7) 0%, transparent calc(1px + 1px), transparent calc(30px), rgba(115,59,139,0.7) calc(31px + 1px))
+//     transform: perspective(50vh) rotateX(60deg) translateZ(10px)
+//     // animation: animate-grid 0.5s infinite linear
 
 .move-right
     transform: translateX(30vw)
     transition: 500ms
+
+.straight-track
+    border: 10px solid #000000
 
 body
     overflow: hidden
