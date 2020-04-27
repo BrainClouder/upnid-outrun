@@ -127,10 +127,11 @@ interface ICar {
 }
 
 const Car: React.FC<ICar> = ({ time, position, color, turbo }) => {
+	const [isMobile] = React.useState(window.innerWidth < 600);
 	return (
 		<CarContainer
 			style={{
-				transform: `scale(${window.innerWidth < 900 ? 0.5 : 1})`,
+				transform: `scale(${isMobile ? 0.5 : 1})`,
 				left: `calc(${position === 2 ? 50 : position > 2 ? 85 : 15}vw - 150px)`,
 				bottom: `25px`,
 			}}
