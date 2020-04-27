@@ -224,6 +224,15 @@ const App: React.FC<IApp> = () => {
               break;
           }
         };
+        const touchHandler = (event: any) => {
+          const positionX = event.touches[0].clientX;
+          if (positionX > (window.innerWidth / 2)) {
+            if (carPos < 3) setCarPos(carPos + 1);
+          } else {
+            if (carPos > 1) setCarPos(carPos - 1);
+          }
+        }
+
         if (turbo && runtime - turbocooldown > 100) setTurbo(false);
         const nextObstacleDistance = track.obstacles.find(element => element > distance);
         //@ts-ignore
@@ -233,15 +242,9 @@ const App: React.FC<IApp> = () => {
           if(turbo) setTurbo(false);
           setSpeed(40);
         };
-        const touchHandler = (event: any) => {
-          const positionX = event.touches[0].clientX;
-          if (positionX > (window.innerWidth / 2)) {
-            if (carPos < 3) setCarPos(carPos + 1);
-          } else {
-            if (carPos > 1) setCarPos(carPos - 1);
-          }
-        }
+     
         window.addEventListener('keydown', keyHandler);
+        window.addEventListener('scroll', (event) => console.log(event));
         window.addEventListener('touchstart', touchHandler);
         const timer = setInterval(() => {
           if (carSpeed < 75 && !turbo) setSpeed(carSpeed + 1);
@@ -254,6 +257,7 @@ const App: React.FC<IApp> = () => {
           clearInterval(timer);
           window.removeEventListener('keydown', keyHandler);
           window.removeEventListener('touchstart', touchHandler);
+          window.removeEventListener('scroll', (event) => console.log(event));
         };
       } else if (!finished) doFinish(true);
     },

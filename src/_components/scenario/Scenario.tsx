@@ -34,7 +34,7 @@ const Sun = styled.div`
 
 const ForegroundGrass = styled.div`
   position: absolute;
-  top: 55vh;
+  top: 53vh;
   width: 100vw;
   height: 60vh;
   z-index: 1;
@@ -66,7 +66,7 @@ const Scenario: React.FC<IScenario> = ({time, distance, track, carPosition}) => 
          [0, 30, 52, 74, 96, 112, 134 ].map((e: number, i: number) => <FirstBuilding key={e + 'a'}
          style={{
           left: `calc(55vw - ${(e) + (( i < 2 ? -1 : 1) * 5)}px)`,
-          top: `calc(54vh - ${[25,10,20,30, 10, 20][i]}px)`,
+          top: `calc(52vh - ${[25,10,20,30, 10, 20][i]}px)`,
           transform: `scale(${0.4 + (distance/12000) })`
         }} />)
         }
@@ -74,7 +74,7 @@ const Scenario: React.FC<IScenario> = ({time, distance, track, carPosition}) => 
           [15, 45, 65, 85, 105, 125].map((e: number, i: number) => <FirstBuilding key={e + 'building'}
           style={{
             left: `calc(55vw - ${(e) + (( i < 2 ? -1 : 1) * 5) + (distance > 4000 ? 2 * 20 : (20 * distance)/2000)}px)`,            
-            top: `calc(55vh - ${[12,10,15,8, 17, 11][i]}px)`,
+            top: `calc(52vh - ${[12,10,15,8, 17, 11][i]}px)`,
             backgroundColor: '#0a0a0a',
             transform: `scale(${0.1 + (distance/10000) })`
           }}/>)
