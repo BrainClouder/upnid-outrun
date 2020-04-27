@@ -132,7 +132,7 @@ const Car: React.FC<ICar> = ({ time, position, color, turbo }) => {
 			style={{
 				transform: `scale(${window.innerWidth < 900 ? 0.5 : 1})`,
 				left: `calc(${position === 2 ? 50 : position > 2 ? 85 : 15}vw - 150px)`,
-				bottom: `${(window.innerWidth < 900 ? 10 : 50) + time % 20}px`,
+				bottom: `25px`,
 			}}
 		>
 			<div style={{ display: 'flex', flexDirection: 'row', alignItems: '' }}>

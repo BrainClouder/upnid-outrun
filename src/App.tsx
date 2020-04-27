@@ -295,7 +295,7 @@ const App: React.FC<IApp> = () => {
       
 
       <MainMenu style={{ display: !loaded && runtime === 0 ? 'flex' : 'none', alignItems: 'center', flexDirection: 'column' }}>
-        <div style={{margin: '1em 0', backgroundColor: '#ffffff22', padding: '1em', width: '500px'}}>        
+        <div style={{margin: '1em 0', backgroundColor: '#ffffff22', padding: '1em', width: window.innerWidth < 600 ? '90vw' : '500px'}}>        
         <UILabel>Bem vindo ao desafio <Enfase>outrun</Enfase>!</UILabel>
         <UILabel>Para jogar, é bem simples:</UILabel>
         <UILabel>Pressione <Enfase>A</Enfase>, <Enfase>S</Enfase> ou <Enfase>D</Enfase> para escolher uma das três faixas</UILabel>
