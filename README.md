@@ -1,16 +1,27 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+Desafio de front-end da Upnid 😁 você poderá encontrar uma versão ao vivo aqui:
+[https://outrun-challenge.herokuapp.com/] (https://outrun-challenge.herokuapp.com/)
 
-In the project directory, you can run:
+## Instalando o projeto
+
+Clone o repositório e rode o comando `npm init` para instalar todas as dependências.
+
+## Scripts Disponíveis
+
+Neste projeto, você poderá executar:
 
 ### `npm start`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Roda o projeto no modo produção (através do server.js)<br />
+Abra [http://localhost:8080](http://localhost:8080) para poder visualizar no navegador.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+
+### `npm run startdev`
+
+Roda o projeto no modo de desenvolvimento. <br />
+Abra [http://localhost:3000](http://localhost:3000) para poder visualizar no navegador.
+Neste modo, qualquer alteração no código irá fazer com que a página seja atualizada.
 
 ### `npm test`
 
