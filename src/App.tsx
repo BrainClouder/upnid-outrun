@@ -136,6 +136,7 @@ const FinaleMenu = styled.div`
 const FinaleMenuText = styled.div`
   color: #ffffffee;
   font-weight: 400;
+  text-align: center;
   font-size: 1.5em;
 `;
 
@@ -341,11 +342,10 @@ const App: React.FC<IApp> = () => {
       loaded ? '' : <CamadaBG/>
     }
       <Scenario time={runtime} speed={carSpeed} distance={distance} track={track} carPosition={carPos} />
-      <Car time={runtime} position={carPos} color={carColorPreset[carColor]} turbo={turbo} />
+        <Car time={runtime} position={carPos} color={carColorPreset[carColor]} turbo={turbo} />
 
       {distance > track.total_distance ? <FinaleMenu>
-        <FinaleMenuText>Parabéns! Você completou o percurso no tempo de: {ReturnTimer()}</FinaleMenuText>
-        <FinaleMenuText></FinaleMenuText>
+        <FinaleMenuText>Parabéns! Você completou o percurso no tempo de <Enfase>{ReturnTimer()}</Enfase></FinaleMenuText>
         <StyledButton onClick={resetGame}>Jogar novamente</StyledButton>
       </FinaleMenu> : ''}
     </div>
