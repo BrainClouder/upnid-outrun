@@ -45,7 +45,6 @@ const MainMenu = styled.div`
   box-shadow: 2px 2px 4px black;
   position: fixed;
   width: 90vw;
-  left: 5vw;
   padding: 1em;
   z-index: 10;
   border-radius: 25px;
@@ -55,9 +54,8 @@ const MainMenu = styled.div`
 const TopInterface = styled.div`
   position: fixed;
   display: flex;
-  flex-direction: row;
-  width: 80vw;
-  left: 10vw;
+  flex-direction: column;
+  left: 5vw;
   justify-content: space-between;
   top: 4vh;
   font-size: 20px;
@@ -114,7 +112,7 @@ const SpeedContainer = styled.div`
   position: fixed;
   width: 300px;
   left: calc(50vw - 150px);
-  top: 5vh;
+  top: 10vh;
   align-items: center;
   flex-direction: column;
   
@@ -284,8 +282,10 @@ const App: React.FC<IApp> = () => {
       <TopInterface>
         <UILabel>TEMPO: {ReturnTimer()}</UILabel>
         <UILabel>{distance.toFixed(2)} metros</UILabel>
-        <ActionButtons style={{fontSize: '14px'}} onClick={() => doLoad(false)}>PAUSE</ActionButtons>
       </TopInterface>
+
+        <ActionButtons style={{fontSize: '14px', position: 'absolute', top: '5vh', right: '5vw'}} onClick={() => doLoad(false)}>PAUSE</ActionButtons>
+
 
 
       <SpeedContainer>
@@ -294,7 +294,7 @@ const App: React.FC<IApp> = () => {
       </SpeedContainer>
       
 
-      <MainMenu style={{ display: !loaded && runtime === 0 ? 'flex' : 'none', alignItems: 'center', flexDirection: 'column' }}>
+      <MainMenu style={{ display: !loaded && runtime === 0 ? 'flex' : 'none', left: window.innerWidth < 600 ? '1vw' : '5vw', alignItems: 'center', flexDirection: 'column' }}>
         <div style={{margin: '1em 0', backgroundColor: '#ffffff22', padding: '1em', width: window.innerWidth < 600 ? '90vw' : '500px'}}>        
         <UILabel>Bem vindo ao desafio <Enfase>outrun</Enfase>!</UILabel>
         <UILabel>Para jogar, é bem simples:</UILabel>
