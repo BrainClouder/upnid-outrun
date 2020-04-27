@@ -5,37 +5,51 @@ import styled from 'styled-components';
 import Scenario from './_components/scenario/Scenario';
 import Car from './_components/player/Car';
 
-
 const PausePopup = styled.div`
   width: 350px;
   height: 350px;
   position: fixed;
   left: calc(50vw - 175px);
   top: 20vh;
-  background-color: #222222;
-  border-radius: 10px;
-  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+  background-color: #000000;
+  border-radius: 50px;  
+  z-index: 10;
 `;
 
 const StyledButton = styled.button`
   padding: 10px 5px;
   background-color: white;
-  color: red;
+  padding: 1em 2em;
+  text-transform: uppercase;
+  background-color: hsl(261, 21%, 13%);
+  color: hsl(261, 21%, 83%);
   font-weight: 700;
-  border-radius: 5px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: 200ms;
+  border: 4px solid  hsl(261, 21%, 93%);
+  &:hover {
+    transform: scale(1.1)
+  }
 `;
 
 const MainMenu = styled.div`
-  background-color: #000000aa;
+  background-color: #000000ff;
   color: #aaaaaa;
   text-align: center;
   box-shadow: 2px 2px 4px black;
   position: fixed;
-  width: 350px;
-  left: calc(50vw - 175px);
+  width: 90vw;
+  left: 5vw;
   padding: 1em;
+  z-index: 10;
   border-radius: 25px;
-  top: 20vh;
+  top: 5vh;
 `;
 
 const TopInterface = styled.div`
@@ -47,12 +61,14 @@ const TopInterface = styled.div`
   justify-content: space-between;
   top: 4vh;
   font-size: 20px;
-  text-transform: uppercase;
+  text-transform: uppercase;  
+  z-index: 10;
 `;
 
 const UILabel = styled.div`
   font-weight: 300;
   color: hsl(12, 83%, 92%);
+  font-size: 20px;
 `;
 
 const ColorPickerContainer = styled.div`
@@ -76,16 +92,75 @@ const UISpeed = styled.div`
     text-align: center;
     font-size: 32px;
     font-weight: 700;
-    position: fixed;
     width: 350px;
-    left: calc(50vw - 175px);
     text-shadow: 2px 2px 2px #000000aa;
     padding: 1em;
     border-radius: 25px;
-    top: 5vh;
 `;
 
-const App: React.FC = () => {
+const ActionButtons = styled.button`
+  padding: 1em;
+  border-radius: 100px;
+  font-weight: 800;
+  font-size: 1.2em;
+  text-transform: uppercase;
+  background-color: hsl(261, 21%, 03%);
+  color: hsl(261, 21%, 93%);
+`;
+
+const SpeedContainer = styled.div`
+  display: flex;
+  flex-direction: center;
+  position: fixed;
+  width: 300px;
+  left: calc(50vw - 150px);
+  top: 5vh;
+  align-items: center;
+  flex-direction: column;
+  
+`;
+
+const FinaleMenu = styled.div`
+  position: fixed;
+  z-index: 10;
+  width: 90vw;
+  height: 90vh;
+  border-radius: 50px;
+  background-color: #000000ef;
+  left: 5vw;
+  top: 5vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly
+`;
+
+const FinaleMenuText = styled.div`
+  color: #ffffffee;
+  font-weight: 400;
+  font-size: 1.5em;
+`;
+
+const Enfase = styled.span`
+  font-weight: 700;
+  text-transform: uppercase;
+  color: hsl(344, 100%, 54%);
+`;
+
+const CamadaBG = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000aa;
+  z-index: 5;
+`;
+
+interface IApp {
+}
+
+const App: React.FC<IApp> = () => {
   const [loaded, doLoad] = React.useState(false);
   const [finished, doFinish] = React.useState(false);
   const [track] = React.useState(() => {
@@ -93,9 +168,9 @@ const App: React.FC = () => {
       name: 'Nível Zero',
       obstacles: [-5],
       obstacle_profile: [1],
-      total_distance: 5000
+      total_distance: 7500
     };
-    const obstacles_number = 30;
+    const obstacles_number = 65;
     for (let i = 0; i < obstacles_number; i++) {
       t.obstacles.push((i + 1) * (t.total_distance / obstacles_number) + Math.floor(Math.random() * 50));
       t.obstacle_profile.push(Math.floor(Math.random() * 3 + 1));
@@ -104,12 +179,18 @@ const App: React.FC = () => {
   });
   const [carColor, setCarColor] = React.useState(0);
   const [turbo, setTurbo] = React.useState(false);
+  const [turbocooldown, setCooldown] = React.useState(-200);
   const [carPos, setCarPos] = React.useState(2);
   const [runtime, setRuntime] = React.useState(0);
   const [carSpeed, setSpeed] = React.useState(1);
   const [distance, setDistance] = React.useState(0);
-  const [coll, setColl] = React.useState(false);
   
+  const activateTurbo = () => {
+    if ((turbocooldown + 200) < runtime) {
+      setCooldown(runtime);
+      setTurbo(true);
+    }
+  }
 
   React.useEffect(
     () => {
@@ -125,76 +206,114 @@ const App: React.FC = () => {
             case 68:
               if (carPos !== 3) setCarPos(3);
               break;
-            case 38:
-              setSpeed(carSpeed + 0.5);
-              break;
-            case 40:
-              setSpeed(carSpeed - 0.1);
-              break;
             case 27:
               doLoad(false);
+              break;
+            case 37:
+              if (carPos > 1) setCarPos(carPos - 1);
+              break;
+            case 39:
+              if (carPos < 3) setCarPos(carPos + 1);
+              break;
+            case 32:
+              if ((turbocooldown + 200) < runtime) {
+                setCooldown(runtime);
+                setTurbo(true);
+              }
               break;
             default:
               break;
           }
         };
+        if (turbo && runtime - turbocooldown > 100) setTurbo(false);
+        const nextObstacleDistance = track.obstacles.find(element => element > distance);
+        //@ts-ignore
+        const verifier = 40 - (distance - (nextObstacleDistance - 50)) * 1.25;
+        //@ts-ignore
+        if (verifier < 10 && carPos === track.obstacle_profile[track.obstacles.indexOf(nextObstacleDistance)]) {
+          if(turbo) setTurbo(false);
+          setSpeed(40);
+        };
+        const touchHandler = (event: any) => {
+          const positionX = event.touches[0].clientX;
+          if (positionX > (window.innerWidth / 2)) {
+            if (carPos < 3) setCarPos(carPos + 1);
+          } else {
+            if (carPos > 1) setCarPos(carPos - 1);
+          }
+        }
         window.addEventListener('keydown', keyHandler);
+        window.addEventListener('touchstart', touchHandler);
         const timer = setInterval(() => {
           if (carSpeed < 75 && !turbo) setSpeed(carSpeed + 1);
           else if (turbo && carSpeed < 150) setSpeed(carSpeed + 2);
           else if (!turbo && carSpeed > 75) setSpeed(carSpeed - 3);
-          if (coll) {
-            setSpeed(40);
-            setColl(false);
-          }
           setDistance(distance + (carSpeed / 50));
           setRuntime(runtime + 1);
         }, 10);
         return () => {
           clearInterval(timer);
           window.removeEventListener('keydown', keyHandler);
+          window.removeEventListener('touchstart', touchHandler);
         };
       } else if (!finished) doFinish(true);
     },
-    [setRuntime, runtime, distance, setDistance, loaded, track, carSpeed, setSpeed, finished, doFinish],
+    [setRuntime, runtime, distance, turbocooldown, setTurbo, setDistance, loaded, track, carSpeed, setSpeed, finished, doFinish, carPos, turbo],
   );
 
   const carColorPreset = ["#dedede", "#0059d6", "#ff1414", "#fff58a", "#cc58fd", "#29ff50", "#7afbff", "#ffb78a", "#ff14ff"];
-  
+
   const ReturnTimer = () => {
     const minutes = Math.floor((runtime * 20) / 60000);
     const seconds = (((runtime * 20) % 60000) / 1000).toFixed(0);
     return (seconds === '60' ? (minutes + 1) + ':00' : minutes + ':' + (seconds.length === 1 ? '0' + seconds : seconds));
   }
-  
-  const Collision = () => {
-    // setSpeed(carSpeed - 70);
-    setColl(true);
+
+  const resetGame = () => {
+    setSpeed(1);
+    setRuntime(0);
+    setDistance(0);
+    doLoad(false);
   }
+
+
 
 
   return (
     <div>
       <TopInterface>
         <UILabel>TEMPO: {ReturnTimer()}</UILabel>
-        <UILabel>{distance.toFixed(2)} metros</UILabel>        
-        <StyledButton onClick={() => setTurbo(!turbo)}>Turbo?</StyledButton>
+        <UILabel>{distance.toFixed(2)} metros</UILabel>
+        <ActionButtons style={{fontSize: '14px'}} onClick={() => doLoad(false)}>PAUSE</ActionButtons>
       </TopInterface>
 
-  <UISpeed> {(((carSpeed / 1000)/1000) * 3600 * 1000).toFixed(1) }km/h</UISpeed>
 
-      <MainMenu style={{display: !loaded && runtime === 0 ? 'inline' : 'none'}}>
-        <UILabel>Escolha sua cor e clique em começar</UILabel>
-        <ColorPickerContainer>
+      <SpeedContainer>
+      <UISpeed> {(((carSpeed / 1000) / 1000) * 3600 * 1000).toFixed(1)}km/h</UISpeed>
+      <ActionButtons style={{opacity: turbocooldown + 200 < runtime ? 1 : 0.5}} onClick={activateTurbo}>TURBO</ActionButtons>
+      </SpeedContainer>
+      
 
-        <ColorPickerPointer style={{backgroundColor: ''}} onClick={() => carColor <= 0 ? '' : setCarColor(carColor - 1)}/>
-
-        <div style={{
-          width: '50px', height: '50px', borderRadius: '50%', backgroundColor: carColorPreset[carColor]
-        }}>
-
+      <MainMenu style={{ display: !loaded && runtime === 0 ? 'flex' : 'none', alignItems: 'center', flexDirection: 'column' }}>
+        <div style={{margin: '1em 0', backgroundColor: '#ffffff22', padding: '1em', width: '500px'}}>        
+        <UILabel>Bem vindo ao desafio <Enfase>outrun</Enfase>!</UILabel>
+        <UILabel>Para jogar, é bem simples:</UILabel>
+        <UILabel>Pressione <Enfase>A</Enfase>, <Enfase>S</Enfase> ou <Enfase>D</Enfase> para escolher uma das três faixas</UILabel>
+        <UILabel>Você também alternar entre as faixas usando as setas direcionais <Enfase>{'<-'}</Enfase> e <Enfase>{'->'}</Enfase></UILabel>
+        <UILabel>Se estiver no celular, toque na tela para movimentar o veículo!</UILabel>
+        <UILabel>É possível <Enfase>Pausar</Enfase> o jogo apertando a tecla <Enfase>esc</Enfase> ou clicando no botão <Enfase>pause</Enfase></UILabel>
+        <UILabel>Você pode ativer o <Enfase>turbo</Enfase> apertando o botão na tela ou apertando o <Enfase>espaço</Enfase></UILabel>
         </div>
-        <ColorPickerPointer style={{transform: 'scale(-1,1)', backgroundColor: ''}} onClick={() => carColor >= carColorPreset.length - 1 ? '' : setCarColor(carColor + 1) }/>
+        <UILabel style={{}}>Escolha a cor do seu <Enfase style={{color: carColorPreset[carColor]}}>veículo</Enfase> e clique em <Enfase>começar</Enfase></UILabel>
+        <ColorPickerContainer>
+          <ColorPickerPointer style={{ backgroundColor: '' }} onClick={() => carColor <= 0 ? '' : setCarColor(carColor - 1)} />
+
+          <div style={{
+            width: '50px', height: '50px', borderRadius: '50%', backgroundColor: carColorPreset[carColor]
+          }}>
+
+          </div>
+          <ColorPickerPointer style={{ transform: 'scale(-1,1)', backgroundColor: '' }} onClick={() => carColor >= carColorPreset.length - 1 ? '' : setCarColor(carColor + 1)} />
 
         </ColorPickerContainer>
 
@@ -202,7 +321,7 @@ const App: React.FC = () => {
           Começar
         </StyledButton>
       </MainMenu>
-      
+
       <div style={{ position: 'fixed' }}>
 
         <div style={{
@@ -213,17 +332,22 @@ const App: React.FC = () => {
       </div>
       {
         !loaded && runtime > 0 ? <PausePopup>
+          <UILabel><Enfase style={{color: 'hsl(344, 100%, 84%)', fontSize: '1.5em'}}>Pause</Enfase></UILabel>
           <StyledButton onClick={() => doLoad(true)}>CONTINUAR</StyledButton>
+          <StyledButton style={{backgroundColor: 'hsl(344, 100%, 54%)', color: 'hsl(344, 100%, 84%)'}} onClick={resetGame}>Reiniciar</StyledButton>
         </PausePopup> : ''
       }
+    {
+      loaded ? '' : <CamadaBG/>
+    }
+      <Scenario time={runtime} speed={carSpeed} distance={distance} track={track} carPosition={carPos} />
+      <Car time={runtime} position={carPos} color={carColorPreset[carColor]} turbo={turbo} />
 
-      <div style={{ display: !loaded ? 'fixed' : 'none' }}>
-        <div>
-        </div>
-      </div>
-
-      <Scenario time={runtime} speed={carSpeed} distance={distance} track={track} carPosition={carPos} Collision={Collision} />
-      <Car time={runtime} position={carPos} color={carColorPreset[carColor]} finished={finished} />
+      {distance > track.total_distance ? <FinaleMenu>
+        <FinaleMenuText>Parabéns! Você completou o percurso no tempo de: {ReturnTimer()}</FinaleMenuText>
+        <FinaleMenuText></FinaleMenuText>
+        <StyledButton onClick={resetGame}>Jogar novamente</StyledButton>
+      </FinaleMenu> : ''}
     </div>
   );
 };

@@ -5,7 +5,7 @@ const Line = styled.div`
     position: absolute;
     height: 12vh;
     width: 5px;
-    background-color: white;
+    background-color: hsl(41, 100%, 65%);
     bottom: 0;
   `;
 
