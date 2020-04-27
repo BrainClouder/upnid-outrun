@@ -3,6 +3,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 Desafio de front-end da Upnid 😁 você poderá encontrar uma versão ao vivo aqui:
 [https://outrun-challenge.herokuapp.com/] (https://outrun-challenge.herokuapp.com/)
 
+Este projeto foi criado utilizando, como base para os frames e atualização do jogo, uma função de atualização dentro de um intervalo.
+
+
 ## Instalando o projeto
 
 Clone o repositório e rode o comando `npm init` para instalar todas as dependências.
@@ -11,17 +14,18 @@ Clone o repositório e rode o comando `npm init` para instalar todas as dependê
 
 Neste projeto, você poderá executar:
 
-### `npm start`
-
-Roda o projeto no modo produção (através do server.js)<br />
-Abra [http://localhost:8080](http://localhost:8080) para poder visualizar no navegador.
-
 
 ### `npm run startdev`
 
 Roda o projeto no modo de desenvolvimento. <br />
 Abra [http://localhost:3000](http://localhost:3000) para poder visualizar no navegador.
 Neste modo, qualquer alteração no código irá fazer com que a página seja atualizada.
+
+### `npm start`
+
+Roda o projeto no modo produção (através do server.js)<br />
+Abra [http://localhost:8080](http://localhost:8080) para poder visualizar no navegador.
+
 
 ### `npm test`
 

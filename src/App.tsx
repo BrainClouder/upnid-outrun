@@ -233,7 +233,6 @@ const App: React.FC<IApp> = () => {
           }
         }
 
-        if (turbo && runtime - turbocooldown > 100) setTurbo(false);
         const nextObstacleDistance = track.obstacles.find(element => element > distance);
         //@ts-ignore
         const verifier = 40 - (distance - (nextObstacleDistance - 50)) * 1.25;
@@ -249,7 +248,8 @@ const App: React.FC<IApp> = () => {
         const timer = setInterval(() => {
           if (carSpeed < 75 && !turbo) setSpeed(carSpeed + 1);
           else if (turbo && carSpeed < 150) setSpeed(carSpeed + 2);
-          else if (!turbo && carSpeed > 75) setSpeed(carSpeed - 3);
+          else if (!turbo && carSpeed > 75) setSpeed(carSpeed - 3);          
+          if (turbo && runtime - turbocooldown > 100) setTurbo(false);
           setDistance(distance + (carSpeed / 50));
           setRuntime(runtime + 1);
         }, 10);
