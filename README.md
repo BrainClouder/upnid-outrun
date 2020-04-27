@@ -4,7 +4,7 @@ Desafio de front-end da Upnid 😁 você poderá encontrar uma versão ao vivo a
 [https://outrun-challenge.herokuapp.com/] (https://outrun-challenge.herokuapp.com/)
 
 Este projeto foi criado utilizando, como base para os frames e atualização do jogo, uma função de atualização dentro de um intervalo.
-
+O container 'App' contém toda a lógica do jogo, bem como é nele que a colisão é detectada. Sobre a paisagem de fundo, o céu, o sol e a grama atualizam de acordo com o tempo, enquanto a cidade de acordo com a distância.
 
 ## Instalando o projeto
 
