@@ -156,6 +156,22 @@ const CamadaBG = styled.div`
   z-index: 5;
 `;
 
+const CooldownText = styled.span`
+  color:  hsl(344, 100%, 84%);
+  font-size: 10em;
+  position: absolute;
+  top: 25vh;
+  width: 100px;
+  font-weight: 700;
+  padding: 10px 40px;
+  left: calc(50vw - 85px);
+  text-align: center;
+  border-radius: 40px;
+  text-shadow: 2px 2px 4px  hsl(344, 100%, 54%), -2px -2px 4px  hsl(344, 100%, 54%);
+  z-index: 10;
+  background-color: #000000ef;
+`;
+
 interface IApp {
 }
 
@@ -178,10 +194,12 @@ const App: React.FC<IApp> = () => {
   });
   const [carColor, setCarColor] = React.useState(0);
   const [turbo, setTurbo] = React.useState(false);
+  const [started, doStart] = React.useState(false);
+  const [startCooldown, setStartCooldown] = React.useState(3);
   const [turbocooldown, setCooldown] = React.useState(-200);
   const [carPos, setCarPos] = React.useState(2);
   const [runtime, setRuntime] = React.useState(0);
-  const [carSpeed, setSpeed] = React.useState(1);
+  const [carSpeed, setSpeed] = React.useState(0);
   const [distance, setDistance] = React.useState(0);
   
   const activateTurbo = () => {
@@ -193,7 +211,14 @@ const App: React.FC<IApp> = () => {
 
   React.useEffect(
     () => {
-      if (loaded && distance < track.total_distance) {
+      if (!started) {
+        const doTheCooldown = setInterval(() => {
+          if (startCooldown > 1) setStartCooldown(startCooldown - 1)
+          else doStart(true);
+        }, 1000);
+        return () => clearInterval(doTheCooldown);
+
+      } else if (loaded && distance < track.total_distance) {
         const keyHandler = (event: any) => {
           switch (event.keyCode) {
             case 65:
@@ -261,7 +286,8 @@ const App: React.FC<IApp> = () => {
         };
       } else if (!finished) doFinish(true);
     },
-    [setRuntime, runtime, distance, turbocooldown, setTurbo, setDistance, loaded, track, carSpeed, setSpeed, finished, doFinish, carPos, turbo],
+    [setRuntime, runtime, distance, turbocooldown, started, startCooldown, setStartCooldown,
+      setTurbo, setDistance, loaded, track, carSpeed, setSpeed, finished, doFinish, carPos, turbo],
   );
 
   const carColorPreset = ["#dedede", "#0059d6", "#ff1414", "#fff58a", "#cc58fd", "#29ff50", "#7afbff", "#ffb78a", "#ff14ff"];
@@ -277,6 +303,8 @@ const App: React.FC<IApp> = () => {
     setRuntime(0);
     setDistance(0);
     doLoad(false);
+    doStart(false);
+    setStartCooldown(3);
   }
 
 
@@ -293,11 +321,16 @@ const App: React.FC<IApp> = () => {
 
 
 
-      <SpeedContainer>
+      <SpeedContainer style={{opacity: started ? 1 : 0.5}}>
       <UISpeed> {(((carSpeed / 1000) / 1000) * 3600 * 1000).toFixed(1)}km/h</UISpeed>
       <ActionButtons style={{opacity: turbocooldown + 200 < runtime ? 1 : 0.5}} onClick={activateTurbo}>TURBO</ActionButtons>
       </SpeedContainer>
       
+      {
+        loaded && !started ? <CooldownText>
+        {startCooldown}
+      </CooldownText> : ''
+      }
 
       <MainMenu style={{ display: !loaded && runtime === 0 ? 'flex' : 'none', left: window.innerWidth < 600 ? '1vw' : '5vw', alignItems: 'center', flexDirection: 'column' }}>
         <div style={{margin: '1em 0', backgroundColor: '#ffffff22', padding: '1em', width: window.innerWidth < 600 ? '90vw' : '500px'}}>        
